@@ -17,7 +17,7 @@ pool.connect((error, _, done) => {
     logger.error(error);
     done(error);
   } else {
-    logger.info('Connecting succeeded.');
+    logger.info('Connecting to pool succeeded.');
     done();
   }
 });

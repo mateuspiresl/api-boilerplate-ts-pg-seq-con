@@ -7,7 +7,6 @@ services:
     build: .
     env_file: .env
     environment:
-      - PORT=80
       - DATABASE_URL=postgres://postgres:postgres@db:15432/boilerplate
     ports:
       - 3000:80
