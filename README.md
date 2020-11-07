@@ -19,16 +19,12 @@ Setup the environment variables.
 > `.env` can be used.
 
 ```sh
-NODE_ENV="<environment>"
-PORT="<port>"
 DATABASE_URL="<database URL>"
 ```
 
 Example:
 
 ```sh
-NODE_ENV=development
-PORT=3000
 DATABASE_URL=postgres://dev:dev@localhost:5432/boilerplate
 ```
 
@@ -44,9 +40,5 @@ yarn debug
 
 ```sh
 yarn build
-yarn server
+yarn start
 ```
-
-## Documentation
-
-This project uses Swagger UI to display the documentation. It initializes with the server, so to view it, start the server following the development or production instructions, and access `/docs`.
