@@ -44,8 +44,4 @@ USER node
 
 RUN yarn install --production
 
-COPY --chown=node:node docs ./docs
-
-COPY --chown=node:node database.js .sequelizerc ./
-
 COPY --chown=node:node --from=build /app/dist ./dist
