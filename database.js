@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const path = require('path');
-
 const dotenv = require('dotenv');
 
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const { logger } = require('./dist/config/logger');
 
 dotenv.config();
-dotenv.config({ path: path.join(__dirname, `.env.${NODE_ENV}`) });
 
 const [
   ,
@@ -30,6 +27,8 @@ const config = {
     bigNumberStrings: true,
   },
 };
+
+logger.info('Database configuration: %o', config);
 
 module.exports = {
   production: config,

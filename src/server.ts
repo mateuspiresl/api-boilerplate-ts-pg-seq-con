@@ -6,10 +6,23 @@ import { sequelize } from './config/database';
 import { logger } from './config/logger';
 import { PORT } from './config/settings';
 
-sequelize.authenticate().then(() => {
-  const server = app.listen(PORT);
-  server.on('listening', () =>
-    logger.info('--> Server successfully started at port %d', PORT),
-  );
-  server.on('error', logger.error);
-});
+logger.info('Connecting to the database...');
+sequelize
+  .authenticate({ retry: { max: 5 } })
+  .then(() => {
+    logger.info('Database successfully connected.');
+    logger.info('Starting the server...');
+    const server = app.listen(PORT);
+    return new Promise((resolve, reject) => {
+      server.on('listening', () => {
+        logger.info('Server successfully started at port %d.', PORT);
+        resolve();
+      });
+      server.on('error', reject);
+    });
+  })
+  .catch((error) => {
+    logger.info('Failed.');
+    logger.error(error);
+    process.exit(1);
+  });
