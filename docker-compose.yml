@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  app:
+    image: boilerplate
+    container_name: boilerplate-app
+    env_file: .env
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/boilerplate
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+      - migration
+    command: yarn start
+    restart: unless-stopped
+
+  migration:
+    image: boilerplate
+    build: .
+    container_name: boilerplate-migration
+    env_file: .env
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/boilerplate
+    depends_on:
+      - db
+    command: yarn db:migrate
+    restart: on-failure
+
+  db:
+    image: postgres
+    container_name: boilerplate-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: boilerplate
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: boilerplate-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+       - pgadmin-data:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  pgadmin-data:

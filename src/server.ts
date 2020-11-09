@@ -22,7 +22,6 @@ sequelize
     });
   })
   .catch((error) => {
-    logger.info('Failed.');
-    logger.error(error);
+    logger.info('Failed: %o', error);
     process.exit(1);
   });
