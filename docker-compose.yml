@@ -6,10 +6,10 @@ services:
     container_name: boilerplate-app
     env_file: .env
     environment:
-      - PORT=80
-      - DATABASE_URL=postgres://postgres:postgres@db:15432/boilerplate
+      - PORT=3000
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/boilerplate
     ports:
-      - 3000:80
+      - 3000:3000
     depends_on:
       - db
       - migration
@@ -22,12 +22,10 @@ services:
     container_name: boilerplate-migration
     env_file: .env
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:15432/boilerplate
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/boilerplate
     depends_on:
       - db
-    command: >
-      sh -c "yarn db:create &&
-             yarn db:migrate"
+    command: yarn db:migrate
     restart: on-failure
 
   db:
@@ -37,12 +35,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: boilerplate
-    ports:
-      - 15432:15432
     volumes:
       - db-data:/var/lib/postgresql/data
     restart: unless-stopped
-    command: -p 15432
 
   pgadmin:
     image: dpage/pgadmin4
