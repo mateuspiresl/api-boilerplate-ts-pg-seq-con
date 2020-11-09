@@ -3,7 +3,7 @@
 # https://medium.com/javascript-in-plain-english/build-a-production-ready-node-express-api-with-docker-9a45443427a0
 
 
-FROM node:14-alpine AS node
+FROM node:12-alpine AS node
 
 
 #############
